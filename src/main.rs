@@ -38,8 +38,16 @@ fn clear_screen(){
     print!("\x1B[2J\x1B[1;1H");
 }
 
-fn save_tasks(todo_tasks: &Vec<String>, done_tasks: &Vec<String>){
+fn save_tasks(
+    todo_tasks: &Vec<String>, done_tasks: &Vec<String>,
+    todo_path: &str, done_path: &str
+){
+    write_tasks(todo_tasks, todo_path);
+    write_tasks(done_tasks, done_path);
+}
 
+fn write_tasks(tasks: &Vec<String>, path: &str){
+    std::fs::write(path, tasks.join("\n")).expect("error while writing tasks");
 }
 
 fn show_main_page() -> MainPageOption {
@@ -184,6 +192,6 @@ fn main() {
         }
     }
 
-    save_tasks(&todo_tasks, &done_tasks);
+    save_tasks(&todo_tasks, &done_tasks, todo_path, done_path);
 
 }   
